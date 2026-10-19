@@ -1,0 +1,40 @@
+# <wtl> project: wifi-guard | file: wifi-guard.conf.example | author: watchthelight </wtl>
+# wifi-guard settings, read as a shell file by guard.sh (as root) and stage.sh.
+# Installed as /usr/local/etc/wifi-guard.conf (root:wheel 644). Keep it owned by root: the guard sources it as root.
+# GUARD_USER, GUARD_EFI_DEV and GUARD_EFI_MOUNT are required; everything else shows its default.
+
+# The account that stages attempts and owns the captures. install.sh fills this in.
+GUARD_USER=
+
+# The OpenCore EFI partition the Mac boots from, and where it mounts (diskutil list; diskutil info <dev>).
+# Get this right: the guard writes kexts and config.plist there as root.
+GUARD_EFI_DEV=
+GUARD_EFI_MOUNT=
+
+# Where pending.json and the per-attempt captures live (must be writable by GUARD_USER).
+#GUARD_STATE_DIR=/Users/<user>/.cache/wifi-guard
+
+# The guard's log and the per-attempt DHCP/ARP packet capture. The LaunchDaemon's stdout file stays in
+# /Users/Shared/wifi-guard whatever this says.
+#GUARD_LOG_DIR=/Users/Shared/wifi-guard
+
+# The Wi-Fi interface, and the network stages D and E ask macOS to join (it must already be a known network or open).
+#GUARD_IFACE=en1
+#GUARD_SSID="My Network"
+
+# Optional: a git checkout that must be clean when you stage (its HEAD goes into pending.json).
+#GUARD_REPO=
+
+# The kexts under test, as named in EFI/OC/Kexts. They are swapped and rolled back as a set.
+# The defaults are the MT7925 drivers MtkWlan (core) and MtkWlanNative (IO80211 front end).
+#GUARD_KEXTS="MtkWlan.kext MtkWlanNative.kext"
+# bundle ids: the core must be loaded at every stage, the front end from stage B on
+#GUARD_CORE_ID=org.watchthelight.MtkWlan
+#GUARD_NATIVE_ID=org.watchthelight.MtkWlanNative
+# where stage.sh finds the built kexts when no folder is given; {name} is the kext name without .kext
+#GUARD_KEXT_SRC='/path/to/build/{name}.kext'
+# boot-arg tokens stage.sh removes before it appends the attempt's own
+#GUARD_BOOTARG_STRIP="mtkfe= mtknativeif= mtknative= mtknativedelay="
+# capture filters (extended regular expressions)
+#GUARD_KEXT_GREP='watchthelight|nullmoth'
+#GUARD_DMESG_GREP=mtk
