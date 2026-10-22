@@ -1,9 +1,5 @@
 # wifi-guard
 
-> **Heads up:** a good portion of this code is AI generated. I do understand how it works,
-> and I'm happy to explain any of it. If something looks wrong or you have a question,
-> open an issue or ping me on Discord (`watchthelight`).
-
 A boot-time safety net for testing Wi-Fi kext builds on an OpenCore Hackintosh. You stage a build on the EFI partition and restart. After the boot, the guard waits for the Wi-Fi to actually work: the kexts loaded, a DHCP lease, a gateway that answers, and at the later stages an associated network. If that happens, the new build becomes the known-good set. If it doesn't happen within 240 s, the guard copies the last known-good kexts and `config.plist` back onto the EFI partition and restarts.
 
 I wrote it while bringing up a driver for the MediaTek MT7925 on a laptop with no Ethernet cable nearby. A bad Wi-Fi build there doesn't only break Wi-Fi. It takes the machine off the network, so nothing remote can fix it, and whatever was driving the test (a script, an ssh session, a coding agent) can't reach the network either. The guard needs no network and no person. It decides from inside the machine and puts the working set back.
