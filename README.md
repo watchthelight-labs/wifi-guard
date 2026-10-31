@@ -1,10 +1,12 @@
-# wifi-guard
+# WTLWifiGuard
+
+Renamed from `wifi-guard` on 2026-10-31; the installed tool is still `wifi-guard`. Old links redirect here.
 
 A boot-time safety net for testing Wi-Fi kext builds on an OpenCore Hackintosh. You stage a build on the EFI partition and restart. After the boot, the guard waits for the Wi-Fi to actually work: the kexts loaded, a DHCP lease, a gateway that answers, and at the later stages an associated network. If that happens, the new build becomes the known-good set. If it doesn't happen within 240 s, the guard copies the last known-good kexts and `config.plist` back onto the EFI partition and restarts.
 
 I wrote it while bringing up a driver for the MediaTek MT7925 on a laptop with no Ethernet cable nearby. A bad Wi-Fi build there doesn't only break Wi-Fi. It takes the machine off the network, so nothing remote can fix it, and whatever was driving the test (a script, an ssh session, a coding agent) can't reach the network either. The guard needs no network and no person. It decides from inside the machine and puts the working set back.
 
-The defaults fit the MT7925 drivers [MtkWlan](https://github.com/watchthelight-labs/mt7925-hackintosh-wifi) and [MtkWlanNative](https://github.com/watchthelight-labs/mt7925-hackintosh-wifi-native). Other kexts work by changing a few settings.
+The defaults fit the MT7925 drivers [MtkWlan](https://github.com/watchthelight-labs/WTLMtkWireless) and [MtkWlanNative](https://github.com/watchthelight-labs/WTLWifiMenu). Other kexts work by changing a few settings.
 
 ## The flow
 
@@ -41,7 +43,7 @@ B and C are for a front end that can get a lease but isn't yet seen as associate
 Needs admin rights (the guard is a root LaunchDaemon that writes to the EFI partition) and `/usr/bin/python3`, which comes with the Xcode Command Line Tools (`xcode-select --install`).
 
 ```
-git clone https://github.com/watchthelight-labs/wifi-guard
+git clone https://github.com/watchthelight-labs/WTLWifiGuard
 cd wifi-guard
 sudo ./install.sh
 ```
@@ -141,7 +143,7 @@ Used daily for Wi-Fi test boots on a Lenovo Legion 5 15IAX10 Hackintosh (MediaTe
 
 ## How it works
 
-The state machine and the criteria in detail: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md). The GPU counterpart, which asks a person instead of checking the network, is [gpu-guard](https://github.com/watchthelight-labs/gpu-guard).
+The state machine and the criteria in detail: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md). The GPU counterpart, which asks a person instead of checking the network, is [WTLGpuGuard](https://github.com/watchthelight-labs/WTLGpuGuard).
 
 ## Licence
 
